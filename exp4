@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Utility function to get the maximum of two integers
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+// Recursive function to solve the knapsack problem using memoization
+int knapSackRec(int W, vector<int>& wt, vector<int>& val, int n, vector<vector<int>>& dp) {
+    if (n == 0 || W == 0)
+        return 0;
+
+    // If already calculated, return the stored result
+    if (dp[n][W] != -1)
+        return dp[n][W];
+
+    // If weight of the nth item is more than Knapsack capacity W, skip it
+    if (wt[n - 1] > W)
+        return dp[n][W] = knapSackRec(W, wt, val, n - 1, dp);
+
+    // Take the maximum of including or excluding the current item
+    return dp[n][W] = max(
+        val[n - 1] + knapSackRec(W - wt[n - 1], wt, val, n - 1, dp),
+        knapSackRec(W, wt, val, n - 1, dp)
+    );
+}
+
+// Function to solve the 0/1 Knapsack problem
+int knapSack(int W, vector<int>& wt, vector<int>& val, int N) {
+    vector<vector<int>> dp(N + 1, vector<int>(W + 1, -1));
+    return knapSackRec(W, wt, val, N, dp);
+}
+
+// Driver Code
+int main() {
+    vector<int> profit = { 60, 100, 120 };
+    vector<int> weight = { 10, 20, 30 };
+    int W = 50;
+    int N = profit.size();
+    cout << knapSack(W, weight, profit, N) << endl;
+    return 0;
+}
