@@ -1,0 +1,63 @@
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+
+
+struct item{
+    char c ;
+    int n ;
+    item *left;
+    item *right;
+
+    item(char a, int num){
+        c = a;
+        n = num;
+        left=right=nullptr;
+    }
+};
+
+
+
+struct com{
+    bool operator()(item *a,item *b){
+        return a->n>b->n;
+    }
+};
+
+void tr(item *root,string s){
+    if(root==NULL){
+        return;
+    }
+
+    if(root->c!='-'){
+        cout<<root->c<<" "<<s<<endl;
+    }
+    tr(root->left,s+'0');
+    tr(root->right,s+'1');
+}
+int main(){
+    char charArray[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+    int charFreq[] = { 5, 9, 12, 13, 16, 45 };
+    priority_queue<item*,vector<item*>,com>a;
+    
+    for(int i = 0;i<6 ;i++){
+        a.push(new item(charArray[i],charFreq[i]));
+    }
+    // cout<<"JII";
+
+    while(a.size()!=1){
+        item *f = a.top();
+        a.pop();
+        item *k = a.top();
+        a.pop();
+        item *l = new item('-',f->n + k->n);
+        l->left = f;
+        l->right=k;
+        a.push(l);
+    }
+    // cout<<"JII";
+    tr(a.top(),"");
+
+
+}
+
