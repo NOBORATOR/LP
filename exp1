@@ -1,0 +1,39 @@
+#include<iostream>
+using namespace std;
+
+
+// recursive
+int tr(int n){
+    if(n==1){
+        return n;
+    }
+    if(n==0){
+        return 0;
+    }
+
+    int left = tr(n-1);
+    int right = tr(n-2);
+    return tr(n-1) + tr(n-2);
+}
+
+int main(){
+    //print n fibonaci
+    for(int i = 0 ; i<10 ;i++){
+        cout<<tr(i)<<" ";
+    }
+    cout<<endl;
+
+
+
+    //iterative
+
+    int f = 0;
+    int s = 1;
+    for(int i = 0 ; i<10 ;i++){
+        cout<<f<<" ";
+        int t  = f + s;
+        f =s;
+        s = t;
+    }
+
+}
